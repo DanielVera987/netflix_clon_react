@@ -2,17 +2,26 @@ import React, { useState } from "react";
 import { makeStyles, Button, Typography } from "@material-ui/core";
 import { NetflixButton, NetflixInput } from "../styled/styledcomponents";
 import { auth } from "../firebase";
+import { useHistory } from "react-router";
 
 const SignUp = () => {
   const classes = useStyles();
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const history = useHistory();
 
-  const signIn = (e) => {};
-
-  const register = async (e) => {
+  const signIn = (e) => {
     e.preventDefault();
-    const user = await auth.createUserWidthEmailPassword(email, password);
+    auth.signInWithEmailAndPassword(email, password)
+      .then( (authUser) => history.push("/") ) 
+      .catch( (err) => alert(err.message) );
+  };
+
+  const register = (e) => {
+    e.preventDefault();
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(authUser => history.push("/"))
+      .catch(error => alert(error.message));
   };
 
   return (
@@ -25,12 +34,14 @@ const SignUp = () => {
         <NetflixInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          type="email"
           placeholder="Email"
           className={classes.email}
         />
         <NetflixInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          type="password"
           placeholder="Password"
           className={classes.password}
         />

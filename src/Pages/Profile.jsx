@@ -4,9 +4,18 @@ import Header from "../components/Header";
 import netflixAvatara from "../images/profile.jpg";
 import Plans from "../components/Plans";
 import { NetflixButton } from "../styled/styledcomponents";
+import { auth } from "../firebase";
+import { useHistory } from "react-router";
 
 const Profile = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const signout = () => {
+    auth.signOut();
+    history.push("/login");
+  }
+
   return (
     <div className={classes.root}>
       <Header />
@@ -25,7 +34,7 @@ const Profile = () => {
             <Plans wide="medium" color="gray" cost={15.99}>
               Netflix Premium
             </Plans>
-            <NetflixButton wide="fullWidth">Sign Out</NetflixButton>
+            <NetflixButton onClick={signout} wide="fullWidth">Sign Out</NetflixButton>
           </div>
         </div>
       </div>

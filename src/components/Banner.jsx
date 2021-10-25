@@ -1,25 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Typography, Button } from "@material-ui/core";
 import imgBanner from "../images/banner.jpg";
+import requests from "../Requests";
+import axios from "../axios";
 
 const Banner = () => {
   const classes = useStyles();
+  const [movies, setMovies] = useState([]);
 
   const truncate = (string, n) =>
     string.length > n ? `${string.substr(0, n - 1)} ...` : string;
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const request = await axios.get(requests.fetchNetflixOriginals);
+      const random = Math.floor(Math.random()* request.data.results.length -1);
+      setMovies(request.data.results[random]);
+      return request;
+    }
+    fetchData(); 
+  }, []);
+
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{
+      backgroundImage: `url("https://image.tmdb.org/t/p/original/${movies?.backdrop_path}")`,
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    }}>
       <div className={classes.content}>
         <Typography variant="h2" component="h1">
-          Move Title
+          {movies?.title || movies?.name || movies?.original_name}
         </Typography>
         <div className={classes.buttons}>
           <Button>Play</Button>
           <Button>My List</Button>
         </div>
         <Typography variant="h6" className={classes.description}>
-          {truncate("Move description", 150)}
+          {truncate(`${movies?.overview}`, 160)}
         </Typography>
         <div className={classes.fadeBottom}></div>
       </div>
@@ -29,13 +47,9 @@ const Banner = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundImage: `url(${imgBanner})`,
     position: "relative",
     height: "440px",
     objectFit: "contain",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
     color: "#fff",
   },
   buttons: {

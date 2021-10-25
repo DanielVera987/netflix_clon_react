@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles, Button, Typography } from "@material-ui/core";
 import logo from "../images/logo.png";
-import HeroLogin from "../images/hero_login.jpg";
+import HeroLogin from "../images/hero_login.jpeg";
 import { NetflixButton, NetflixInput } from "../styled/styledcomponents";
 import SignUp from "./SignUp";
 
