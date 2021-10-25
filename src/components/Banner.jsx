@@ -47,6 +47,8 @@ const Banner = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    alignItems: 'center',
     position: "relative",
     height: "440px",
     objectFit: "contain",
@@ -77,6 +79,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage:
       "linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.61), #111)",
   },
+  content: {
+    margin: "30px"
+  },
+  description: {
+    width: "70%"
+  }
 }));
 
 export default Banner;
